@@ -19,6 +19,7 @@ class _PageQuizState extends State<PageQuiz>{
 
   late Question question;
 
+  //Liste des questions
   List<Question> listeQuestions = [
     new Question('La devise de la Belgique est l\'union fait la force', true, '', 'belgique.JPG'),
     new Question('La lune va finir par tomber sur terre à cause de la gravité', false, 'Au contraire la lune s\'éloigne', 'lune.jpg'),
@@ -32,9 +33,12 @@ class _PageQuizState extends State<PageQuiz>{
     new Question('Le module lunaire Eagle de possédait de 4Ko de Ram', true, 'Dire que je me plains avec mes 8GO de ram sur mon mac', 'eagle.jpg'),
   ];
 
+  //Position de la question
   int index = 0;
+  //Score du quizz
   int score = 0;
 
+  //La page affiche la question initiale
   @override
   void initState() {
     super.initState();
@@ -78,6 +82,7 @@ class _PageQuizState extends State<PageQuiz>{
     );
   }
 
+  //Reponse à la question posée
   RaisedButton boutonBool (bool b){
     return new RaisedButton(onPressed: (() =>dialoque(b)),
       color: Colors.blue,
