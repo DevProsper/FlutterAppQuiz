@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:async';
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'CustomText.dart';
@@ -77,11 +81,72 @@ class _PageQuizState extends State<PageQuiz>{
   RaisedButton boutonBool (bool b){
     return new RaisedButton(onPressed: (() =>dialoque(b)),
       color: Colors.blue,
-      child: new CustomText((b) ? "Vrai" : "Faux", factor: 1.5,),
+      child: new CustomText((b) ? "Vrai" : "Faux", factor: 1.25,),
     );
   }
 
-  Future<Null> dialoque(bool b) async {
+  Future <Null> dialoque(bool b) async {
+    bool bonneReponse = (b == question.reponse);
+    String vrai = "img/vrai.jpg";
+    String faux = "img/faux.jpg";
+    if(bonneReponse){
+      score++;
+    }
 
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return SimpleDialog(
+            title: new CustomText((bonneReponse) ? "C'est gagné!" : "Oups ! perdu...", factor: 1.5, color: (bonneReponse) ? Colors.green : Colors.red),
+            contentPadding: EdgeInsets.all(20.0),
+            children: <Widget> [
+              new Image.asset((bonneReponse) ? vrai : faux, fit: BoxFit.cover,),
+              new Container(height: 25.0,),
+              new CustomText(question.explication, factor: 1.25, color: Colors.grey[900],),
+              new RaisedButton(onPressed: (){
+                Navigator.pop(context);
+                questionSuivante();
+              },
+                child: new CustomText("Au suivant", factor: 1.25,),
+                  color: Colors.blue,
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+  Future <Null> alerte () async {
+    return showDialog(context: context,
+        barrierDismissible: false,
+        builder: (BuildContext buildContext){
+          return new AlertDialog(
+            title: new CustomText("C'est fini !", color: Colors.blue, factor: 1.25,),
+            contentPadding: EdgeInsets.all(10.0),
+            content: new CustomText("Votre score : $score / $index", color: Colors.grey[900]),
+            actions: [
+              new FlatButton(onPressed: ((){
+                Navigator.pop(buildContext);
+                Navigator.pop(context);
+              }),
+                  child: new CustomText("Ok", factor: 1.25, color: Colors.blue,),
+
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  void questionSuivante(){
+    if(index < listeQuestions.length - 1){
+      index++;
+      setState(() {
+        question = listeQuestions[index];
+      });
+    }else{
+      alerte();
+    }
   }
 }
