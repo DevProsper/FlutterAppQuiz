@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'CustomText.dart';
+import 'page_quiz.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -40,7 +41,9 @@ class _MyHomePageState extends State<MyHomePage>{
             new RaisedButton(
               color: Colors.blue,
               onPressed: (){
-
+                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
+                    return new PageQuiz();
+                }));
             },
               child: new CustomText("Commencer le quiz", factor: 1.5),
             ),
